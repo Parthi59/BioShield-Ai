@@ -1,0 +1,73 @@
+<!-- Full-Screen Analysis Modal -->
+<div class="analysis-modal-overlay" id="analysisModal" style="display: none;">
+    <div class="analysis-modal">
+        <div class="analysis-header">
+            <h2>📊 Complete Analysis Report</h2>
+            <button class="analysis-close" id="analysisClose">✕</button>
+        </div>
+        <div class="analysis-content">
+            <!-- Health Score Section -->
+            <div class="analysis-section health-section">
+                <div class="health-score-large">
+                    <div class="score-circle-large" id="scoreCircleLarge">
+                        <span class="score-number-large" id="healthScoreLarge">0</span>
+                        <span class="score-label-large">/10</span>
+                    </div>
+                    <div class="score-description-large" id="scoreTitleLarge">Health Score</div>
+                    <div class="score-status" id="scoreStatus">Analyzing...</div>
+                </div>
+            </div>
+
+            <div class="analysis-grid">
+                <!-- Benefits & Concerns -->
+                <div class="analysis-section">
+                    <h3>✅ Benefits</h3>
+                    <div class="benefits-cards" id="benefitsCards">
+                        <div class="benefit-card">No analysis yet</div>
+                    </div>
+                </div>
+
+                <div class="analysis-section">
+                    <h3>⚠️ Concerns</h3>
+                    <div class="concerns-cards" id="concernsCards">
+                        <div class="concern-card">No analysis yet</div>
+                    </div>
+                </div>
+
+                <!-- Red & Green Flags -->
+                <div class="analysis-section">
+                    <h3>🚩 Red Flags</h3>
+                    <div class="flag-tags-large" id="redFlagsLarge">
+                        <span class="flag-tag red">None</span>
+                    </div>
+                </div>
+
+                <div class="analysis-section">
+                    <h3>🟢 Green Flags</h3>
+                    <div class="flag-tags-large" id="greenFlagsLarge">
+                        <span class="flag-tag green">None</span>
+                    </div>
+                </div>
+
+                <!-- Better Alternatives -->
+                <div class="analysis-section">
+                    <h3>🔄 Better Alternatives</h3>
+                    <div class="alternatives-cards" id="alternativesCards">
+                        <div class="alternative-card">
+                            <div class="alt-name">No alternatives found</div>
+                            <div class="alt-score">0/10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Healthier Cooking Tips -->
+                <div class="analysis-section">
+                    <h3>👨‍🍳 Healthier Cooking Tips</h3>
+                    <div class="cooking-tips-cards" id="cookingTipsCards">
+                        <div class="cooking-tip-card">No tips available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

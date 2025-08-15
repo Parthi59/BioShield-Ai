@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioShield AI - Your Shield Against Hidden Food Threats</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <div class="logo-icon">🛡️</div>
+        <span class="logo-text">BioShield AI</span>
+        <span class="logo-subtitle">Smart Ingredient Analysis & Health Insights</span>
+      </div>
+      <div class="nav-actions">
+        <div class="nav-links" id="navLinks">
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#dashboard" class="nav-link" id="dashboardLink" style="display: none;">Dashboard</a>
+        </div>
+        <button class="login-btn" id="loginBtn">Login</button>
+        <div class="user-menu" id="userMenu" style="display: none;">
+          <div class="user-avatar" id="userAvatar">👤</div>
+          <span class="user-name" id="userName">User</span>
+          <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login/Signup Modal -->
+  <div class="modal-overlay" id="authModal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Welcome Back</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="loginTab">Login</button>
+          <button class="auth-tab" id="signupTab">Sign Up</button>
+        </div>
+
+        <!-- Login Form -->
+        <form class="auth-form" id="loginForm">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="auth-submit">Login</button>
+          <p class="auth-footer">Don't have an account? <span class="auth-switch" id="switchToSignup">Sign up</span></p>
+        </form>
+
+        <!-- Signup Form -->
+        <form class="auth-form" id="signupForm" style="display: none;">
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" placeholder="Create a password" required>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+          </div>
+          <button type="submit" class="auth-submit">Create Account</button>
+          <p class="auth-footer">Already have an account? <span class="auth-switch" id="switchToLogin">Login</span></p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Main Content -->
+  <main class="main-container" id="mainContent">
+    <div class="content-wrapper">
+      <!-- Left Content -->
+      <div class="left-content">
+        <h1 class="main-title">Analyze. Optimize. Live Healthier.</h1>
+        <p class="main-subtitle">BioShield AI analyzes ingredient lists to provide health scores, identify red flags,
+          suggest better alternatives, and give you personalized cooking recommendations — all powered by advanced AI.
+        </p>
+
+        <div class="action-buttons">
+          <button class="btn-primary">
+                        <span class="btn-icon">🔍</span>
+                        Analyze Ingredients
+                    </button>
+          <button class="btn-secondary">Learn More</button>
+        </div>
+      </div>
+
+      <!-- Right Content -->
+      <div class="right-content">
+        <div class="upload-section">
+          <div class="upload-header">
+            <h3>Ingredient Analysis</h3>
+            <span class="demo-badge">Upload & analyze</span>
+            <button class="close-btn">✕</button>
+          </div>
+
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            <div class="upload-placeholder" id="uploadPlaceholder">
+              <div class="upload-icon" id="uploadIcon">📁</div>
+              <p id="uploadText">Choose File | No file chosen</p>
+            </div>
+            <div class="upload-progress" id="uploadProgress">
+              <div class="upload-progress-bar" id="uploadProgressBar"></div>
+            </div>
+          </div>
+
+          <div class="scan-result">
+            <h4>Analysis Result</h4>
+            <div class="result-status">No analysis yet</div>
+
+            <!-- Simple Results Summary -->
+            <div class="simple-results" id="simpleResults" style="display: none;">
+              <div class="quick-score">
+                <div class="score-badge" id="scoreBadge">
+                  <span class="score-num" id="quickScore">0</span>
+                  <span class="score-max">/10</span>
+                </div>
+                <div class="score-text" id="quickScoreText">Health Score</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-section">
+          <h3>Live Demo</h3>
+          <p>Upload an ingredient list image for instant health analysis.</p>
+
+          <!-- Analysis Results appear here -->
+          <div class="demo-analysis-results" id="demoAnalysisResults" style="display: none;">
+            <div class="demo-analysis-header">
+              <h4>📊 Analysis Complete</h4>
+            </div>
+
+            <div class="demo-health-score">
+              <div class="demo-score-circle" id="demoScoreCircle">
+                <span class="demo-score-number" id="demoHealthScore">0</span>
+                <span class="demo-score-label">/10</span>
+              </div>
+              <div class="demo-score-text" id="demoScoreText">Health Score</div>
+            </div>
+
+            <div class="demo-quick-info">
+              <div class="demo-pros" id="demoPros">
+                <h5>✅ Benefits</h5>
+                <ul id="demoProsList">
+                  <li>No analysis yet</li>
+                </ul>
+              </div>
+
+              <div class="demo-cons" id="demoCons">
+                <h5>⚠️ Concerns</h5>
+                <ul id="demoConsList">
+                  <li>No analysis yet</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="demo-flags">
+              <div class="demo-red-flags">
+                <span class="demo-flag-label">🚩 Red Flags:</span>
+                <div class="demo-flag-tags" id="demoRedFlags">
+                  <span class="flag-tag red">None</span>
+                </div>
+              </div>
+
+              <div class="demo-green-flags">
+                <span class="demo-flag-label">🟢 Green Flags:</span>
+                <div class="demo-flag-tags" id="demoGreenFlags">
+                  <span class="flag-tag green">None</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Features Section -->
+    <div class="features-section">
+      <h2 class="features-title">Advanced Ingredient Intelligence</h2>
+      <p class="features-subtitle">Comprehensive ingredient analysis powered by AI — get health insights, alternatives,
+        and cooking guidance.</p>
+      <div class="disclaimer">Transform how you understand and use food ingredients.</div>
+
+      <div class="features-grid">
+        <!-- Row 1 -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">HS</span>
+            <div class="feature-title">Health Score Engine</div>
+          </div>
+          <p class="feature-description">AI evaluates ingredient lists and provides a comprehensive 0-10 health score
+            based on nutritional value, processing level, and additive content.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">RF</span>
+            <div class="feature-title">Red Flag Detection</div>
+          </div>
+          <p class="feature-description">Instantly identifies harmful additives, excessive sugars, trans fats, and
+            controversial ingredients with detailed explanations of health risks.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">AL</span>
+            <div class="feature-title">Smart Alternatives</div>
+          </div>
+          <p class="feature-description">Suggests healthier product alternatives with better ingredients, similar taste
+            profiles, and improved nutritional benefits.</p>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">CG</span>
+            <div class="feature-title">Cooking Guidance</div>
+          </div>
+          <p class="feature-description">Provides healthier cooking methods, preparation tips, and ingredient
+            combinations to maximize nutritional benefits.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">PC</span>
+            <div class="feature-title">Pros & Cons Analysis</div>
+          </div>
+          <p class="feature-description">Detailed breakdown of ingredient benefits and drawbacks, helping you make
+            informed decisions about what you consume.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">GF</span>
+            <div class="feature-title">Green Flag Highlights</div>
+          </div>
+          <p class="feature-description">Identifies beneficial ingredients like antioxidants, fiber, vitamins, and
+            natural compounds that promote good health.</p>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">IP</span>
+            <div class="feature-title">Ingredient Profiling</div>
+          </div>
+          <p class="feature-description">Deep analysis of each ingredient's origin, processing methods, and potential
+            health impacts with scientific backing.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">NR</span>
+            <div class="feature-title">Nutrition Rating</div>
+          </div>
+          <p class="feature-description">Comprehensive nutritional assessment including macro/micronutrient density,
+            caloric quality, and ingredient interaction effects.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-header">
+            <span class="feature-code">RS</span>
+            <div class="feature-title">Reactive Substitution Engine</div>
+          </div>
+          <p class="feature-description">When an allergen is detected, the engine instantly suggests safe ingredient
+            swaps and find local substitute.</p>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container" id="dashboardContent" style="display: none;">
+      <div class="dashboard-wrapper">
+        <div class="dashboard-sidebar">
+          <div class="sidebar-header">
+            <h3>Dashboard</h3>
+          </div>
+          <nav class="sidebar-nav">
+            <a href="#overview" class="sidebar-link active" data-section="overview">
+              <span class="sidebar-icon">📊</span>
+              Overview
+            </a>
+            <a href="#scan-history" class="sidebar-link" data-section="scan-history">
+              <span class="sidebar-icon">📋</span>
+              Scan History
+            </a>
+            <a href="#allergen-profile" class="sidebar-link" data-section="allergen-profile">
+              <span class="sidebar-icon">🛡️</span>
+              Allergen Profile
+            </a>
+            <a href="#preferences" class="sidebar-link" data-section="preferences">
+              <span class="sidebar-icon">⚙️</span>
+              Preferences
+            </a>
+            <a href="#analytics" class="sidebar-link" data-section="analytics">
+              <span class="sidebar-icon">📈</span>
+              Analytics
+            </a>
+          </nav>
+        </div>
+
+        <div class="dashboard-main">
+          <!-- Overview Section -->
+          <div class="dashboard-section active" id="overview">
+            <div class="section-header">
+              <h2>Welcome back, <span id="dashboardUserName">User</span>!</h2>
+              <p>Here's your food safety overview</p>
+            </div>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon">🔍</div>
+                <div class="stat-content">
+                  <h3 id="totalScans">0</h3>
+                  <p>Total Scans</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-content">
+                  <h3 id="alertsFound">0</h3>
+                  <p>Allergens Detected</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                  <h3 id="safeScans">0</h3>
+                  <p>Safe Foods</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-content">
+                  <h3 id="streakDays">0</h3>
+                  <p>Day Streak</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="recent-activity">
+              <h3>Recent Activity</h3>
+              <div class="activity-list" id="activityList">
+                <div class="activity-item">
+                  <div class="activity-icon">🔍</div>
+                  <div class="activity-content">
+                    <p>Welcome to BioShield AI! Start scanning to see your activity here.</p>
+                    <span class="activity-time">Just now</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scan History Section -->
+          <div class="dashboard-section" id="scan-history">
+            <div class="section-header">
+              <h2>Scan History</h2>
+              <p>View all your previous food scans</p>
+            </div>
+
+            <div class="scan-filters">
+              <select class="filter-select">
+                            <option>All Scans</option>
+                            <option>Safe Foods</option>
+                            <option>Allergen Detected</option>
+                            <option>High Risk</option>
+                        </select>
+              <input type="date" class="filter-date">
+            </div>
+
+            <div class="scan-list" id="scanHistoryList">
+              <div class="empty-state">
+                <div class="empty-icon">📱</div>
+                <h3>No scans yet</h3>
+                <p>Start scanning foods to build your history</p>
+                <button class="btn-primary" onclick="showMainContent()">Start Scanning</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Allergen Profile Section -->
+          <div class="dashboard-section" id="allergen-profile">
+            <div class="section-header">
+              <h2>Allergen Profile</h2>
+              <p>Manage your allergens and dietary restrictions</p>
+            </div>
+
+            <div class="allergen-setup">
+              <h3>Select Your Allergens</h3>
+              <div class="allergen-grid">
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="peanuts">
+                                <span class="allergen-icon">🥜</span>
+                                <span class="allergen-name">Peanuts</span>
+                            </label>
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="tree-nuts">
+                                <span class="allergen-icon">🌰</span>
+                                <span class="allergen-name">Tree Nuts</span>
+                            </label>
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="dairy">
+                                <span class="allergen-icon">🥛</span>
+                                <span class="allergen-name">Dairy</span>
+                            </label>
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="eggs">
+                                <span class="allergen-icon">🥚</span>
+                                <span class="allergen-name">Eggs</span>
+                            </label>
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="gluten">
+                                <span class="allergen-icon">🌾</span>
+                                <span class="allergen-name">Gluten</span>
+                            </label>
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="shellfish">
+                                <span class="allergen-icon">🦐</span>
+                                <span class="allergen-name">Shellfish</span>
+                            </label>
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="fish">
+                                <span class="allergen-icon">🐟</span>
+                                <span class="allergen-name">Fish</span>
+                            </label>
+                <label class="allergen-option">
+                                <input type="checkbox" data-allergen="soy">
+                                <span class="allergen-icon">🌱</span>
+                                <span class="allergen-name">Soy</span>
+                            </label>
+              </div>
+              <button class="btn-primary" id="saveAllergens">Save Allergen Profile</button>
+            </div>
+          </div>
+
+          <!-- Preferences Section -->
+          <div class="dashboard-section" id="preferences">
+            <div class="section-header">
+              <h2>Preferences</h2>
+              <p>Customize your BioShield AI experience</p>
+            </div>
+
+            <div class="preferences-grid">
+              <div class="preference-card">
+                <h3>Notifications</h3>
+                <div class="preference-options">
+                  <label class="switch">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    <span class="slider"></span>
+                                    Email Alerts
+                                </label>
+                  <label class="switch">
+                                    <input type="checkbox" id="pushNotifications" checked>
+                                    <span class="slider"></span>
+                                    Push Notifications
+                                </label>
+                </div>
+              </div>
+
+              <div class="preference-card">
+                <h3>Scan Settings</h3>
+                <div class="preference-options">
+                  <label class="switch">
+                                    <input type="checkbox" id="autoScan" checked>
+                                    <span class="slider"></span>
+                                    Auto-scan on upload
+                                </label>
+                  <label class="switch">
+                                    <input type="checkbox" id="detailedResults">
+                                    <span class="slider"></span>
+                                    Detailed analysis
+                                </label>
+                </div>
+              </div>
+
+              <div class="preference-card">
+                <h3>Privacy</h3>
+                <div class="preference-options">
+                  <label class="switch">
+                                    <input type="checkbox" id="saveHistory" checked>
+                                    <span class="slider"></span>
+                                    Save scan history
+                                </label>
+                  <label class="switch">
+                                    <input type="checkbox" id="shareData">
+                                    <span class="slider"></span>
+                                    Share anonymous data
+                                </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analytics Section -->
+          <div class="dashboard-section" id="analytics">
+            <div class="section-header">
+              <h2>Analytics</h2>
+              <p>Insights into your food safety patterns</p>
+            </div>
+
+            <div class="analytics-grid">
+              <div class="analytics-card">
+                <h3>Weekly Scan Trend</h3>
+                <div class="chart-placeholder">
+                  <div class="chart-bars">
+                    <div class="chart-bar" style="height: 20%"></div>
+                    <div class="chart-bar" style="height: 40%"></div>
+                    <div class="chart-bar" style="height: 60%"></div>
+                    <div class="chart-bar" style="height: 30%"></div>
+                    <div class="chart-bar" style="height: 80%"></div>
+                    <div class="chart-bar" style="height: 50%"></div>
+                    <div class="chart-bar" style="height: 70%"></div>
+                  </div>
+                  <div class="chart-labels">
+                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="analytics-card">
+                <h3>Risk Distribution</h3>
+                <div class="risk-chart">
+                  <div class="risk-item">
+                    <span class="risk-label">Safe</span>
+                    <div class="risk-bar">
+                      <div class="risk-fill safe" style="width: 70%"></div>
+                    </div>
+                    <span class="risk-percent">70%</span>
+                  </div>
+                  <div class="risk-item">
+                    <span class="risk-label">Medium</span>
+                    <div class="risk-bar">
+                      <div class="risk-fill medium" style="width: 20%"></div>
+                    </div>
+                    <span class="risk-percent">20%</span>
+                  </div>
+                  <div class="risk-item">
+                    <span class="risk-label">High</span>
+                    <div class="risk-bar">
+                      <div class="risk-fill high" style="width: 10%"></div>
+                    </div>
+                    <span class="risk-percent">10%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Built by <strong>Parthish Yogimadathil</strong> • BioShield AI Prototype</p>
+        <p>© 2025 • All rights reserved</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
